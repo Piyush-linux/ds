@@ -1,0 +1,183 @@
+> library(readr) 
+Warning message: package ‘readr’ was built under R version 3.4.4  
+ 
+Load a table named IP_DATA_ALL.csv. 
+ 
+> IP_DATA_ALL <- read_csv("C:/VKHCG/01-Vermeulen/00-RawData/IP_DATA_ALL.csv") 
+Parsed with column specification: 
+cols( 
+  ID = col_double(), 
+  Country = col_character(), 
+  `Place Name` = col_character(), 
+  `Post Code` = col_double(), 
+  Latitude = col_double(), 
+  Longitude = col_double(), 
+  `First IP Number` = col_double(), 
+  `Last IP Number` = col_double() 
+) 
+ 
+> View(IP_DATA_ALL) 
+> spec(IP_DATA_ALL) 
+cols( 
+  ID = col_double(), 
+  Country = col_character(), 
+  `Place Name` = col_character(), 
+  `Post Code` = col_double(), 
+  Latitude = col_double(), 
+  Longitude = col_double(), 
+  `First IP Number` = col_double(), 
+  `Last IP Number` = col_double() 
+) 
+ 
+
+
+
+
+
+##################################################################
+
+
+library(tibble) 
+> set_tidy_names(IP_DATA_ALL, syntactic = TRUE, quiet = FALSE) 
+New names: 
+Place Name -> Place.Name 
+Post Code -> Post.Code 
+First IP Number -> First.IP.Number 
+Last IP Number -> Last.IP.Number 
+This informs you that four of the field names are not valid and suggests new field names that are valid. You can 
+fix any detected invalid column names by executing 
+IP_DATA_ALL_FIX=set_tidy_names(IP_DATA_ALL, syntactic = TRUE, quiet = TRUE) 
+By using command View(IP_DATA_ALL_FIX), you can check that you have fixed the columns. The new table 
+IP_DATA_ALL_FIX.csv will fix the invalid column names with valid names. 
+ 
+> sapply(IP_DATA_ALL_FIX, typeof) 
+             ID         Country      Place.Name       Post.Code        Latitude  
+       "double"     "character"     "character"        "double"        "double"  
+      Longitude First.IP.Number  Last.IP.Number  
+       "double"        "double"        "double"  
+> library(data.table) 
+> hist_country=data.table(Country=unique(IP_DATA_ALL_FIX[is.na(IP_DATA_ALL_FIX ['Country']) == 0, ]$Countr
+ y)) 
+> setorder(hist_country,'Country') 
+> hist_country_with_id=rowid_to_column(hist_country, var = "RowIDCountry") 
+> View(hist_country_fix) 
+> IP_DATA_COUNTRY_FREQ=data.table(with(IP_DATA_ALL_FIX, table(Country))) 
+> View(IP_DATA_COUNTRY_FREQ)
+
+
+#################################################################################################
+hist_latitude =data.table(Latitude=unique(IP_DATA_ALL_FIX [is.na(IP_DATA_ALL_with_ID ['Latitude']) == 0, ]$Lati
+ tude)) 
+setkeyv(hist_latitude, 'Latitude') 
+setorder(hist_latitude) 
+hist_latitude_with_id=rowid_to_column(hist_latitude, var = "RowID") 
+View(hist_latitude_with_id) 
+IP_DATA_Latitude_FREQ=data.table(with(IP_DATA_ALL_FIX,table(Latitude))) 
+View(IP_DATA_Latitude_FREQ)
+##############################################################################################
+
+
+ sapply(IP_DATA_ALL_FIX[,'Latitude'], min, na.rm=TRUE) 
+Latitude  40.6888  
+ 
+What does this tell you? 
+Fact: The range of latitude for the Northern Hemisphere is from 0 to 90. So, if you do not have any latitudes 
+farther south than 40.6888, you can improve your retrieve routine. 
+ 
+> sapply(IP_DATA_ALL_FIX[,'Country'], min, na.rm=TRUE) 
+Country    "DE"  
+Minimum business frequency is from DE – Denmark. 
+ 
+> sapply(IP_DATA_ALL_FIX[,'Latitude'], max, na.rm=TRUE) 
+Latitude  
+ 51.5895  
+> sapply(IP_DATA_ALL_FIX[,'Country'], max, na.rm=TRUE) 
+Country  
+   "US"  
+The result is 51.5895. What does this tell you? 
+Fact: The range in latitude for the Northern Hemisphere is from 0 to 90. So, if you do not have any latitudes 
+more northerly than 51.5895, you can improve your retrieve routine. 
+> sapply(IP_DATA_ALL_FIX [,'Latitude'], mean, na.rm=TRUE) 
+Latitude  
+46.69097  
+> sapply(IP_DATA_ALL_FIX [,'Latitude'], median, na.rm=TRUE) 
+Latitude  
+   48.15  
+> sapply(IP_DATA_ALL_FIX [,'Latitude'], range, na.rm=TRUE) 
+     Latitude 
+[1,]  40.6888 
+[2,]  51.5895 
+ 
+> sapply(IP_DATA_ALL_FIX [,'Latitude'], quantile, na.rm=TRUE) 
+     Latitude 
+0%    40.6888 
+25%   40.7588 
+50%   48.1500 
+75%   51.5092 
+100%  51.5895 
+ 
+> sapply(IP_DATA_ALL_FIX [,'Latitude'], sd, na.rm=TRUE) 
+Latitude  
+4.890387  
+> sapply(IP_DATA_ALL_FIX [,'Longitude'], sd, na.rm=TRUE) 
+Longitude  
+ 38.01702 
+ 
+ ##########################################################################################
+
+
+
+
+library(readr) 
+library(data.table) 
+FileName=paste0('c:/VKHCG/01-Vermeulen/00-RawData/IP_DATA_ALL.csv') 
+IP_DATA_ALL <- read_csv(FileName) 
+hist_country=data.table(Country=unique(IP_DATA_ALL$Country)) 
+pattern_country=data.table(Country=hist_country$Country, 
+                           PatternCountry=hist_country$Country) 
+oldchar=c(letters,LETTERS) 
+newchar=replicate(length(oldchar),"A") 
+for (r in seq(nrow(pattern_country))){ 
+  s=pattern_country[r,]$PatternCountry; 
+  for (c in seq(length(oldchar))){ 
+    s=chartr(oldchar[c],newchar[c],s) 
+  }; 
+  for (n in seq(0,9,1)){ 
+    s=chartr(as.character(n),"N",s) 
+  }; 
+  s=chartr(" ","b",s) 
+  s=chartr(".","u",s) 
+  pattern_country[r,]$PatternCountry=s; 
+}; 
+View(pattern_country)
+
+
+
+####################################################################################################
+ 
+library(readr) 
+library(data.table) 
+Base='C:/VKHCG' 
+FileName=paste0(Base,'/01-Vermeulen/00-RawData/IP_DATA_ALL.csv') 
+IP_DATA_ALL <- read_csv(FileName) 
+hist_latitude=data.table(Latitude=unique(IP_DATA_ALL$Latitude)) 
+pattern_latitude=data.table(latitude=hist_latitude$Latitude, 
+                            Patternlatitude=as.character(hist_latitude$Latitude)) 
+oldchar=c(letters,LETTERS) 
+newchar=replicate(length(oldchar),"A") 
+for (r in seq(nrow(pattern_latitude))){ 
+  s=pattern_latitude[r,]$Patternlatitude; 
+  for (c in seq(length(oldchar))){ 
+    s=chartr(oldchar[c],newchar[c],s) 
+  }; 
+  for (n in seq(0,9,1)){ 
+    s=chartr(as.character(n),"N",s) 
+  }; 
+  s=chartr(" ","b",s) 
+  s=chartr("+","u",s) 
+  s=chartr("-","u",s) 
+  s=chartr(".","u",s) 
+  pattern_latitude[r,]$Patternlatitude=s; 
+}; 
+setorder(pattern_latitude,latitude) 
+View(pattern_latitude[1:3])
