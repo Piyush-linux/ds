@@ -5,26 +5,27 @@ set -e
 BASE_URL="https://raw.githubusercontent.com/Piyush-linux/ds/master"
 echo $BASE_URL
 TOPICS=(
-  "2 CSV HOURUS/AUDIO2HORUS.py" #2 CSV HOURUS/AUDIO2HORUS.py
-  "bbsf.py" # Calculate the output of neural net using both binary and bipolar sigmoidal function
-  "mpAnd.py" # Generate AND/NOT function using McCulloch-Pitts neural net
-  "mpnn.py" # Generate XOR function using McCulloch-Pitts neural net
-  "hr.py" # Write a program to implement Hebb’s rule
-  "dr.py" # Write a program to implement of delta rule
-  "bpa.py" # Write a program for Back Propagation Algorithm
-  "eba.py" # Write a program for error Backpropagation algorithm
-  "hn.py" # Write a program for Hopfield Network
-  "rbf.py" # Write a program for Radial Basis function
-  "kso.py" # Kohonen Self organizing map
-  "art.py" # Adaptive resonance theory
-  "ls.py" # Write a program for Linear separation
-  "hnm.py" # Write a program for Hopfield network model for associative memory
-  "io_in.py" # Membership and Identity Operators | in, not in
-  "io_is.py" # Membership and Identity Operators is, is not
-  "fl.py" # Find ratios using fuzzy logic
-  "fl_t.py" # Solve Tipping problem using fuzzy logic
-  "sga.py" # Implementation of Simple genetic algorithm
-  "ga.py" # Create two classes: City and Fitness using Genetic algorithm
+  "2 CSV HOURUS/AUDIO2HORUS.py"
+  "2 CSV HOURUS/CSV2HORUS.py"
+  "2 CSV HOURUS/DATABASE2HORUS.py"
+"2 CSV HOURUS/HORUSFrame2HORUS.py"
+"2 CSV HOURUS/JPEG2HORUS.py"
+"2 CSV HOURUS/JSON2HORUS.py"
+"2 CSV HOURUS/MOVIE2HORUSFrame.py"
+"2 CSV HOURUS/XML2HORUS.py"
+"3 fIXERS UTILITIES/DATABINNING.py"
+"3 fIXERS UTILITIES/DU-Outliers.py"
+"3 fIXERS UTILITIES/Fixersutilities.py"
+"3 fIXERS UTILITIES/MeanAverage.py"
+"3 fIXERS UTILITIES/Yoke_Logging.py"
+"4 Retrive/Loading-IP_DATA_ALL.py"
+"4 Retrive/R studio.txt"
+"4 Retrive/Retrieve-Container-Plan.py"
+""
+"9 GENERETING DATA/Raport-Network-Routing-Customer.py"
+"9 GENERETING DATA/Report_Billboard.py"
+"9 GENERETING DATA/Report_Reading_Container.py"
+
 )
 
 echo "📦 Available topics:"
